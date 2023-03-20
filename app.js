@@ -55,7 +55,12 @@ app.route("/articles")
 
 //* Request targetting a specific article ////////////////////
 
-
+app.route("/articles/:articleTitle")
+    .get((req, res) => {
+        Article.findOne({ title: req.params.articleTitle })
+            .then((foundArticle) => res.send(foundArticle))
+            .catch((err) => res.send("No articles matching that title was found!"))
+    })
 
 app.listen(PORT, () => {
 	console.log(`Server started at port ${PORT}`);
