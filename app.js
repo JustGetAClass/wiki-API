@@ -24,30 +24,38 @@ const articleSchema = new mongoose.Schema({
 
 const Article = mongoose.model("Article", articleSchema);
 
-app.get("/articles", (req, res) => {
-	Article.find()
-		.then((foundArticles) => {
-			res.send(foundArticles);
-		})
-		.catch((err) => res.send(err));
-});
+//* Request targetting all articles ////////////////////
 
-app.post("/articles", (req, res) => {
-	const newArticle = new Article({
-		title: req.body.title,
-		content: req.body.content,
+app.route("/articles")
+
+	.get((req, res) => {
+		Article.find()
+			.then((foundArticles) => {
+				res.send(foundArticles);
+			})
+			.catch((err) => res.send(err));
+	})
+
+	.post((req, res) => {
+		const newArticle = new Article({
+			title: req.body.title,
+			content: req.body.content,
+		});
+		newArticle
+			.save()
+			.then(() => res.send("successfully added new article!"))
+			.catch((err) => res.send(err));
+	})
+
+	.delete((req, res) => {
+		Article.deleteMany()
+			.then(() => res.send("Successfully deleted all articles!"))
+			.catch((err) => res.send(err));
 	});
-	newArticle
-		.save()
-		.then(() => res.send("successfully added new article!"))
-		.catch((err) => res.send(err));
-});
 
-app.delete("/articles", (req, res) => {
-	Article.deleteMany()
-		.then(() => res.send("Successfully deleted all articles!"))
-		.catch((err) => res.send(err));
-});
+//* Request targetting a specific article ////////////////////
+
+
 
 app.listen(PORT, () => {
 	console.log(`Server started at port ${PORT}`);
