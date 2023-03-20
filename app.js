@@ -56,6 +56,7 @@ app.route("/articles")
 //* Request targetting a specific article ////////////////////
 
 app.route("/articles/:articleTitle")
+
 	.get((req, res) => {
 		Article.findOne({ title: req.params.articleTitle })
 			.then((foundArticle) => res.send(foundArticle))
@@ -63,6 +64,7 @@ app.route("/articles/:articleTitle")
 				res.send("No articles matching that title was found!")
 			);
 	})
+
 	.put((req, res) => {
 		Article.replaceOne(
 			{
@@ -74,6 +76,17 @@ app.route("/articles/:articleTitle")
 			}
 		)
 			.then(() => res.send("Successfully Updated article!"))
+			.catch((err) => res.send(err));
+	})
+
+	.patch((req, res) => {
+		Article.updateOne(
+			{
+				title: req.params.articleTitle,
+			},
+			req.body   //! can either replace title or content without changing the other
+		)
+			.then(() => res.send("Successfully patched article!"))
 			.catch((err) => res.send(err));
 	});
 
