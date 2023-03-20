@@ -56,11 +56,26 @@ app.route("/articles")
 //* Request targetting a specific article ////////////////////
 
 app.route("/articles/:articleTitle")
-    .get((req, res) => {
-        Article.findOne({ title: req.params.articleTitle })
-            .then((foundArticle) => res.send(foundArticle))
-            .catch((err) => res.send("No articles matching that title was found!"))
-    })
+	.get((req, res) => {
+		Article.findOne({ title: req.params.articleTitle })
+			.then((foundArticle) => res.send(foundArticle))
+			.catch((err) =>
+				res.send("No articles matching that title was found!")
+			);
+	})
+	.put((req, res) => {
+		Article.replaceOne(
+			{
+				title: req.params.articleTitle,
+			},
+			{
+				title: req.body.title,
+				content: req.body.content,
+			}
+		)
+			.then(() => res.send("Successfully Updated article!"))
+			.catch((err) => res.send(err));
+	});
 
 app.listen(PORT, () => {
 	console.log(`Server started at port ${PORT}`);
