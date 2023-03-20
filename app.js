@@ -32,6 +32,17 @@ app.get("/articles", (req, res) => {
 		.catch((err) => res.send(err));
 });
 
+app.post("/articles", (req, res) => {
+	const newArticle = new Article({
+		title: req.body.title,
+		content: req.body.content,
+	});
+	newArticle
+		.save()
+		.then(() => res.send("successfully added!"))
+		.catch((err) => res.send(err));
+});
+
 app.listen(PORT, () => {
 	console.log(`Server started at port ${PORT}`);
 });
