@@ -64,7 +64,7 @@ app.route("/articles/:articleTitle")
 				res.send("No articles matching that title was found!")
 			);
 	})
-
+	//* replaces both title or content regardless of which field is filled in.
 	.put((req, res) => {
 		Article.replaceOne(
 			{
@@ -78,15 +78,23 @@ app.route("/articles/:articleTitle")
 			.then(() => res.send("Successfully Updated article!"))
 			.catch((err) => res.send(err));
 	})
-
+	//* can either replace title or content without changing the other
 	.patch((req, res) => {
 		Article.updateOne(
 			{
 				title: req.params.articleTitle,
 			},
-			req.body   //! can either replace title or content without changing the other
+			req.body
 		)
 			.then(() => res.send("Successfully patched article!"))
+			.catch((err) => res.send(err));
+	})
+
+	.delete((req, res) => {
+		Article.deleteOne({
+			title: req.params.articleTitle,
+		})
+			.then(() => res.send("Successfully deleted article"))
 			.catch((err) => res.send(err));
 	});
 
