@@ -1,2 +1,2 @@
 # wiki-API
-creating a REST API
+creating a RESTful API
