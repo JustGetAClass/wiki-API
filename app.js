@@ -24,7 +24,13 @@ const articleSchema = new mongoose.Schema({
 
 const Article = mongoose.model("Article", articleSchema);
 
-
+app.get("/articles", (req, res) => {
+	Article.find()
+		.then((foundArticles) => {
+			res.send(foundArticles);
+		})
+		.catch((err) => res.send(err));
+});
 
 app.listen(PORT, () => {
 	console.log(`Server started at port ${PORT}`);
