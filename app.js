@@ -39,7 +39,13 @@ app.post("/articles", (req, res) => {
 	});
 	newArticle
 		.save()
-		.then(() => res.send("successfully added!"))
+		.then(() => res.send("successfully added new article!"))
+		.catch((err) => res.send(err));
+});
+
+app.delete("/articles", (req, res) => {
+	Article.deleteMany()
+		.then(() => res.send("Successfully deleted all articles!"))
 		.catch((err) => res.send(err));
 });
 
